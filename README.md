@@ -32,7 +32,7 @@ sample command:
 ./integrity ver /int_sam
 ```
 * If folder contains hash files `hash_bin`, `hash_sbin`, `hash_usr`, integrity will check the integrity of all files contained in `/bin`,`/sbin` and `/usr`, and will report changes and status to root with mail.
-* Same as `gen` argument, `var` file will log activity /var/log/messages
+* Same as `gen` argument, `ver` will log activity /var/log/messages
 
 ### On boot verification - broken
 * **integrity.sh needs to be in / (root dir) for installation to work**
