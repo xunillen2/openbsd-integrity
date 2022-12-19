@@ -1,4 +1,6 @@
 #!/bin/sh
+# CopyRight Xunillen 2022
+# Based on CALOMEL IDS script.
 
 KEY=
 DIR=/hash_dir
@@ -23,16 +25,16 @@ KWORDS=cksum,md5digest,sha1digest,sha256digest
 # share/relink/kernel/GENERIC.MP/relink.log: 
 
 help() {
-	echo "\n Simple script to check integrity of the host system.\n"
+	echo "\n Simple script to check integrity of the host OpenBSD system.\n"
 	echo "Command usage: \n./integrity gen <path to directory>"
 	echo "./integrity ver <path to directory>"
 	echo "./integrity install <path to directory> - broken. Put integrity.sh in / if you want to use this"
 	echo "\n<path to directory> - Location to directory where hash files are stored."
-	echo "If directory does not exist, it will be created. If directory and old hash files exists while using ver arg,"\
-		"they will be moved to old_hash folder."
-	echo "\nNOTE: This tool is designed to be runned from bsd.rd because hash files can be modified"\
+	echo "If directory does not exist, it will be created. While using gen arg, existing hash files"\
+		"will be moved to old_hash folder."
+	echo "\nNOTE: This tool is designed to be used from bsd.rd, as hash files can be modified"\
 		"if host system is compromised. If you need to verify host system without booting bsd.rd"\
-		"from second installation usb, then the best way is to store hash files to usb and verify host system"\
+		"from second storage media, then the best way is to store hash files to usb and verify host system"\
 		"while not connected to internet. This is not good way to verify integrity, but is good enough in some"\
 		"cases"
 }
