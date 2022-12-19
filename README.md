@@ -1,5 +1,5 @@
 # openbsd-integrity
-integrity is simple script for checking system integrity and for generating integrity hash files using [mtree](https://man.openbsd.org/mtree.8)
+integrity is simple script for checking system integrity and generating integrity hash files using [mtree](https://man.openbsd.org/mtree.8)
 
 ## Usage
 * Before starting, set seed value to KEY variable. This can be ~20 digit number.
