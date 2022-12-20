@@ -103,6 +103,8 @@ if [[ $1 = "gen" ]]; then
 	mtree -c -K $KWORDS -s $KEY -p /bin > hash_bin
         echo "Generating /sbin hash file"
 	mtree -c -K $KWORDS -s $KEY -p /sbin > hash_sbin
+	echo "Generating /etc hash file"
+	mtree -c -K $KWORDS -s $KEY -p /etc > hash_etc
         echo "Generating /usr hash file"
         mtree -c -K $KWORDS -s $KEY -p /usr > hash_usr
 	# Set premissions
@@ -129,8 +131,10 @@ if [[ $1 = "ver" ]]; then
 	mtree -s $KEY -p /bin < hash_bin >> out.res 2>&1
 	echo "Verifying /sbin..."
 	mtree -s $KEY -p /sbin < hash_sbin >> out.res 2>&1
+        echo "Verifying /etc..."
+        mtree -s $KEY -p / < hash_etc >> out.res 2>&1
 	echo "Verifying /usr..."
-	mtree -s $KEY -p /usr < hash_usr >> out.res 2>&1
+	mtree  -s $KEY -p /usr < hash_usr >> out.res 2>&1
 	echo "System verification completed! System and verification results can be viewed in mail."
         logger -t "[Integrity]" "System Verification completed!"
 	cat out.res | mail -s "Host system integrity check" root
