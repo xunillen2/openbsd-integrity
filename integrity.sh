@@ -99,6 +99,10 @@ if [[ $1 = "gen" ]]; then
 
 	# Generate new hash values
 	logger -t "[Integrity]" "Generating new integrity hash files... Hash files location: $DIR. hash functions: $KWORDS"
+	echo "Generating bsd.rd hash file"
+	sha256 /bsd.rd > hash_bsdrd
+	echo "Generating bsd.sp hash file"
+	sha256 /bsd.sp > hash_bsdsp
 	echo "Generating /bin hash file"
 	mtree -c -K $KWORDS -s $KEY -p /bin > hash_bin
         echo "Generating /sbin hash file"
@@ -127,14 +131,18 @@ if [[ $1 = "ver" ]]; then
 	fi
 
         logger -t "[Integrity]" "Verifying integrity hash files... Hash files location: $DIR. hash functions: $KWORDS"
+	echo "Verifying bsd.rd..."
+	sha256 -c hash_bsdrd
+	echo "Verifying bsd.sp..."
+	sha256 -c hash_bsdsp
 	echo "Verifying /bin..."
 	mtree -s $KEY -p /bin < hash_bin >> out.res 2>&1
 	echo "Verifying /sbin..."
 	mtree -s $KEY -p /sbin < hash_sbin >> out.res 2>&1
         echo "Verifying /etc..."
-        mtree -s $KEY -p / < hash_etc >> out.res 2>&1
+        mtree -s $KEY -p /etc < hash_etc >> out.res 2>&1
 	echo "Verifying /usr..."
-	mtree  -s $KEY -p /usr < hash_usr >> out.res 2>&1
+#	mtree  -s $KEY -p /usr < hash_usr >> out.res 2>&1
 	echo "System verification completed! System and verification results can be viewed in mail."
         logger -t "[Integrity]" "System Verification completed!"
 	cat out.res | mail -s "Host system integrity check" root
