@@ -142,7 +142,7 @@ if [[ $1 = "ver" ]]; then
         echo "Verifying /etc..."
         mtree -s $KEY -p /etc < hash_etc >> out.res 2>&1
 	echo "Verifying /usr..."
-#	mtree  -s $KEY -p /usr < hash_usr >> out.res 2>&1
+	mtree  -s $KEY -p /usr < hash_usr >> out.res 2>&1
 	echo "System verification completed! System and verification results can be viewed in mail."
         logger -t "[Integrity]" "System Verification completed!"
 	cat out.res | mail -s "Host system integrity check" root
