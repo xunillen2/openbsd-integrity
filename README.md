@@ -12,8 +12,8 @@ sample command:
 ```
 ./integrity gen /int_sam
 ```
-* This will generate hash files `hash_bin`, `hash_sbin`, `hash_usr` in `/int_sam` directory. This hash files will contain hash of all files contained in `/bin`,`/sbin` and `/usr`.
-* If integrity is started with gen parameter with folder that already contains `hash_bin`, `hash_sbin`, `hash_usr`. Those files will be moved to folder named `old_hash`.
+* This will generate hash files `hash_bin`, `hash_sbin`, `hash_etc` and `hash_usr` in `/int_sam` directory. This hash files will contain hash of all files contained in `/bin`,`/sbin`, `/etc` and `/usr`.
+* If integrity is started with gen parameter with folder that already contains `hash_bin`, `hash_sbin`, `hash_usr`, `hash_etc`. Those files will be moved to folder named `old_hash`.
 * After every process of generating hash files, integrity will log status activity to /var/log/messages
 ```
 Dec 11 13:22:14 SampleMachine [Integrity]: Generating new integrity hash files... Hash files location: /int_sam/. hash functions: cksum,md5digest,sha1digest,sha256digest
@@ -21,6 +21,7 @@ Dec 11 13:26:01 SampleMachine [Integrity]: Generating new integrity hash files c
 
 ```
 * _More folders will be added later, or more specifically option to add more folders._
+* _Now integrity also checks bsd.rd and bsd.sp hash_
 
 
 ### Verifying files
@@ -31,7 +32,7 @@ sample command:
 ```
 ./integrity ver /int_sam
 ```
-* If folder contains hash files `hash_bin`, `hash_sbin`, `hash_usr`, integrity will check the integrity of all files contained in `/bin`,`/sbin` and `/usr`, and will report changes and status to root with mail.
+* If folder contains hash files `hash_bin`, `hash_sbin`,`hash_etc`, `hash_usr`, integrity will check the integrity of all files contained in `/bin`,`/sbin`, `/etc` and `/usr`, and will report changes and status to root with mail.
 * Same as `gen` argument, `ver` will log activity /var/log/messages
 
 ### On boot verification - broken
