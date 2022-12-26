@@ -6,6 +6,8 @@ KEY=
 DIR=/hash_dir
 KWORDS=cksum,md5digest,sha1digest,sha256digest
 
+# To see full layout of OpenBSD filesystem, see https://man.openbsd.org/hier
+
 # Put 0600 premission on this script
 
 # Files that always change because of relinking:
@@ -103,6 +105,8 @@ if [[ $1 = "gen" ]]; then
 	sha256 /bsd.rd > hash_bsdrd
 	echo "Generating bsd.sp hash file"
 	sha256 /bsd.sp > hash_bsdsp
+#	echo "Generating bsd kernel hash file"
+#	sha256 /bsd > hash_bsd
 	echo "Generating /bin hash file"
 	mtree -c -K $KWORDS -s $KEY -p /bin > hash_bin
         echo "Generating /sbin hash file"
@@ -112,8 +116,9 @@ if [[ $1 = "gen" ]]; then
         echo "Generating /usr hash file"
         mtree -c -K $KWORDS -s $KEY -p /usr > hash_usr
 	# Set premissions
-	chmod 600 $DIR/hash_*
+	chmod 600 hash_*
         logger -t "[Integrity]" "Generating new integrity hash files completed!"
+	echo "Hash files generation complete. If possible, put generated hash files on encrypted usb drive."
 	exit
 fi
 
@@ -132,9 +137,9 @@ if [[ $1 = "ver" ]]; then
 
         logger -t "[Integrity]" "Verifying integrity hash files... Hash files location: $DIR. hash functions: $KWORDS"
 	echo "Verifying bsd.rd..."
-	sha256 -c hash_bsdrd
+	sha256 -c hash_bsdrd >> out.res 2>&1
 	echo "Verifying bsd.sp..."
-	sha256 -c hash_bsdsp
+	sha256 -c hash_bsdsp >> out.res 2>&1
 	echo "Verifying /bin..."
 	mtree -s $KEY -p /bin < hash_bin >> out.res 2>&1
 	echo "Verifying /sbin..."
@@ -142,7 +147,11 @@ if [[ $1 = "ver" ]]; then
         echo "Verifying /etc..."
         mtree -s $KEY -p /etc < hash_etc >> out.res 2>&1
 	echo "Verifying /usr..."
-	mtree  -s $KEY -p /usr < hash_usr >> out.res 2>&1
+#	mtree  -s $KEY -p /usr < hash_usr >> out.res 2>&1
+#        echo "Waiting for kernel relinking to finsih...."
+ #       while ! (pgrep -qxf '/bin/ksh .*reorder_kernel'); do
+#		echo "waiting"
+#	done
 	echo "System verification completed! System and verification results can be viewed in mail."
         logger -t "[Integrity]" "System Verification completed!"
 	cat out.res | mail -s "Host system integrity check" root
