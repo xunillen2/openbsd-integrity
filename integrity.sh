@@ -147,7 +147,7 @@ if [[ $1 = "ver" ]]; then
         echo "Verifying /etc..."
         mtree -s $KEY -p /etc < hash_etc >> out.res 2>&1
 	echo "Verifying /usr..."
-#	mtree  -s $KEY -p /usr < hash_usr >> out.res 2>&1
+	mtree  -s $KEY -p /usr < hash_usr >> out.res 2>&1
 #        echo "Waiting for kernel relinking to finsih...."
  #       while ! (pgrep -qxf '/bin/ksh .*reorder_kernel'); do
 #		echo "waiting"
